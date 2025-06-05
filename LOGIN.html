@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--
+    This document contains the HTML, CSS, and JavaScript for three pages:
+    1. Login Page (login.html)
+    2. Admin Dashboard (admin_dashboard.html)
+    3. Guard Dashboard (guard_dashboard.html)
+
+    Instructions:
+    - Copy the HTML, CSS, and JS for each page into its own .html file.
+    - Replace placeholder logo URLs with your actual logo image paths (Guard Dashboard updated to use logo1.png & logo2.png).
+    - The JavaScript provided is for front-end demonstration and UI interaction;
+      a backend system is required for full functionality (data storage, authentication, etc.).
+    - Amethyst background color (#9966CC) applied.
+    - Enhanced mobile responsiveness.
+    - Guard Dashboard footer is fixed to bottom.
+    - QR Scan button added to Guard Dashboard.
+-->
+<!-- *********************************************************************** -->
+<!-- * LOGIN PAGE (login.html)                   * -->
+<!-- *********************************************************************** -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDFB Labourtrack - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #9966CC; /* Amethyst background */
+        }
+
+        .logo-img {
+            max-height: 40px; /* Adjusted for potentially smaller mobile headers */
+        }
+
+        @media (min-width: 768px) { /* Larger screens */
+            .logo-img {
+                max-height: 50px;
+            }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-6 md:p-10 rounded-xl shadow-2xl w-full max-w-md">
+        <!-- Header with Logos -->
+        <div class="flex justify-between items-center mb-6">
+            <img src="logo1.png" alt="Left Logo" class="logo-img rounded" onerror="this.onerror=null;this.src='https://placehold.co/100x40/E2E8F0/4A5568?text=LogoErr';">
+            <img src="logo2.png" alt="Right Logo" class="logo-img rounded" onerror="this.onerror=null;this.src='https://placehold.co/100x40/E2E8F0/4A5568?text=LogoErr';">
+        </div>
+
+        <!-- App Name -->
+        <h1 class="text-2xl md:text-3xl font-bold text-center text-slate-700 mb-2">BDFB Labourtrack</h1>
+
+        <!-- Login Text -->
+        <h2 class="text-lg md:text-xl text-center text-slate-600 mb-8">Login</h2>
+
+        <form id="loginForm">
+            <!-- ID Input -->
+            <div class="mb-5">
+                <label for="userId" class="block mb-2 text-sm font-medium text-gray-700">ID</label>
+                <input type="text" id="userId" name="userId" placeholder="e.g., GU123 or AD456" required
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-3">
+            </div>
+
+            <!-- Password Input -->
+            <div class="mb-6">
+                <label for="password" class="block mb-2 text-sm font-medium text-gray-700">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-3">
+            </div>
+
+            <!-- Login Button -->
+            <button type="submit"
+                    class="w-full text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-base px-5 py-3 text-center">
+                Login
+            </button>
+        </form>
+
+        <!-- Footer -->
+        <p class="mt-8 text-xs text-center text-gray-600">
+            Designed by Swarnim Mishra
+        </p>
+    </div>
+
+    <!-- Custom Modal for Alerts -->
+    <div id="customAlertModal" class="fixed inset-0 bg-gray-800 bg-opacity-60 overflow-y-auto h-full w-full flex items-center justify-center z-50" style="display: none;">
+        <div class="relative p-5 border w-11/12 max-w-sm m-4 bg-white rounded-lg shadow-xl">
+            <div class="mt-3 text-center">
+                <h3 class="text-lg leading-6 font-medium text-gray-900" id="customAlertTitle">Alert</h3>
+                <div class="mt-2 px-7 py-3">
+                    <p class="text-sm text-gray-500" id="customAlertMessage">Your message here.</p>
+                </div>
+                <div class="items-center px-4 py-3">
+                    <button id="customAlertOkButton" class="px-4 py-2 bg-purple-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-300">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Login Page Script ---
+        const loginForm = document.getElementById('loginForm');
+        const userIdInput = document.getElementById('userId');
+        const passwordInput = document.getElementById('password');
+        const customAlertModal = document.getElementById('customAlertModal');
+        const customAlertTitle = document.getElementById('customAlertTitle');
+        const customAlertMessage = document.getElementById('customAlertMessage');
+        const customAlertOkButton = document.getElementById('customAlertOkButton');
+
+        // --- Mock User Credentials ---
+        // IMPORTANT: This is NOT secure and for front-end demonstration ONLY.
+        // Real authentication MUST happen on a backend server.
+        const mockUsers = {
+            "AD001": "adminpass",
+            "ADXYZ": "admin123",
+            "GU001": "guardpass",
+            "GUABC": "guard123"
+        };
+
+        function showAlert(title, message) {
+            customAlertTitle.textContent = title;
+            customAlertMessage.textContent = message;
+            customAlertModal.style.display = 'flex';
+        }
+
+        customAlertOkButton.onclick = function () {
+            customAlertModal.style.display = 'none';
+        }
+
+        window.onclick = function (event) {
+            if (event.target == customAlertModal) {
+                customAlertModal.style.display = 'none';
+            }
+        }
+
+        loginForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const userId = userIdInput.value.trim().toUpperCase();
+            const password = passwordInput.value;
+
+            if (!userId || !password) {
+                showAlert('Input Error', 'Please enter both ID and Password.');
+                return;
+            }
+
+            // Mock Authentication Logic
+            if (mockUsers[userId] && mockUsers[userId] === password) {
+                if (userId.startsWith('AD')) {
+                    console.log('Admin Login Success:', userId);
+                    showAlert('Login Success', 'Admin login successful. Redirecting...');
+                    setTimeout(() => {
+                        window.location.href = 'admin_dashboard.html';
+                    }, 1500);
+                } else if (userId.startsWith('GU')) {
+                    console.log('Guard Login Success:', userId);
+                    showAlert('Login Success', 'Guard login successful. Redirecting...');
+                    setTimeout(() => {
+                        window.location.href = 'guard_dashboard.html';
+                    }, 1500);
+                } else {
+                    // Should not happen if prefix check is part of mockUsers keys
+                    showAlert('Login Error', 'User role could not be determined.');
+                }
+            } else {
+                showAlert('Login Failed', 'Invalid ID or Password. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
