@@ -1,0 +1,16 @@
+{
+    "name": "BDFB LabourTrack",
+    "short_name": "LabourTrack",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#9b59b6",
+    "theme_color": "#9b59b6",
+    "description": "A App for maintaing the Attendence",
+    "icons": [
+        {
+            "src": "logo_icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
